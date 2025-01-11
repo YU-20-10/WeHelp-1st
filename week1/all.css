@@ -43,6 +43,8 @@ section+section {
 }
 
 .navbar-btn {
+  padding: 8px;
+
   @media screen and (min-width: 600px) {
     display: none;
   }
@@ -65,8 +67,10 @@ section+section {
   align-items: center;
   position: fixed;
   right: 0;
-  top:0
-
+  top:0;
+  z-index: 3;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
 }
 
@@ -76,7 +80,7 @@ section+section {
   right: 0;
   background-color: transparent;
   border-width: 0;
-  padding: 4px;
+  padding: 8px;
 
   @media screen and (min-width:600px) {
     display: none;
