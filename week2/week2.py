@@ -20,9 +20,9 @@ def find_and_print(messages, current_station):
         "Nanjing Sanmin",
         "Songshan",
     ]
-    
+
     data = {}
-    
+
     # 過濾原始資料，僅存放index
     for key, value in messages.items():
         for item in stationName:
@@ -31,18 +31,60 @@ def find_and_print(messages, current_station):
             elif item not in value and "Xiaobitan" in value:
                 data[key] = 2.1
 
-    # 兩個車站的index相減取最小值
-    currentStationIndex = stationName.index(current_station)
-    nearest = currentStationIndex - data[list(data.keys())[0]]
-    nearestFriend = ""
+    # 初始化現在車站的值
+    if current_station not in stationName and current_station == "Xiaobitan":
+        currentStationIndex = "sp"
+    else:
+        currentStationIndex = stationName.index(current_station)
 
+    # nearestFriend 及 nearest 及 nearestValue初始化
+    # nearestFriend存放的最近的朋友是誰
+    # nearest為存放最近的朋友的車站的index
+    # nearestValue為現在車站-最近的朋友車站的最小差值
+    nearestFriend = list(data.keys())[0]
+    if data[list(data.keys())[0]] == 2.1 and currentStationIndex != "sp":
+        nearest = "sp"
+        nearestValue = abs(currentStationIndex - stationName.index("Qizhang")) + 1
+    elif data[list(data.keys())[0]] != 2.1 and currentStationIndex == "sp":
+        nearest = data[list(data.keys())[0]]
+        nearestValue = (
+            abs(stationName.index("Qizhang") - data[list(data.keys())[0]]) + 1
+        )
+    elif data[list(data.keys())[0]] == 2.1 and currentStationIndex == "sp":
+        nearest = "sp"
+        nearestValue = 0
+    else:
+        nearest = data[list(data.keys())[0]]
+        nearestValue = abs(currentStationIndex - data[list(data.keys())[0]])
+
+    # 逐筆friend station資訊取最小差值
     for i in range(len(data)):
-        friendStationIndex = data[list(data.keys())[i]]
-        if abs(currentStationIndex - friendStationIndex) <= abs(
-            currentStationIndex - nearest
-        ):
+        # 取當筆資料的朋友名字及朋友車站的index
+        friend = list(data.keys())[i]
+        if data[list(data.keys())[i]] == 2.1:
+            friendStationIndex = "sp"
+        else:
+            friendStationIndex = data[list(data.keys())[i]]
+        
+        # 初始化差值
+        diffBetween = 0
+
+        # 計算現在所在車站及朋友的車站之間的差值
+        if currentStationIndex == "sp" and friendStationIndex != "sp":
+            diffBetween = abs(stationName.index("Qizhang") - friendStationIndex) + 1
+        elif currentStationIndex != "sp" and friendStationIndex == "sp":
+            diffBetween = abs(currentStationIndex - stationName.index("Qizhang")) + 1
+        elif currentStationIndex == "sp" and friendStationIndex == "sp":
+            diffBetween = 0
+        else:
+            diffBetween = abs(currentStationIndex - friendStationIndex)
+    
+        # 如果差值比先前最小差值還要小，更新最小差值及最近朋友的車站的index及最近朋友
+        if diffBetween <= nearestValue:
+            nearestValue = diffBetween
             nearest = friendStationIndex
-            nearestFriend = list(data.keys())[i]
+            nearestFriend = friend
+            
     print(nearestFriend)
 
 
@@ -59,89 +101,93 @@ find_and_print(messages, "Songshan")  # print Copper
 find_and_print(messages, "Qizhang")  # print Leslie
 find_and_print(messages, "Ximen")  # print Bob
 find_and_print(messages, "Xindian City Hall")  # print Vivian
+find_and_print(messages, "Xiaobitan")  # Leslie
+find_and_print(messages, "Dapinglin")  # Mary
+
 
 def book(consultants, hour, duration, criteria):
-    
-    #初始化consultants["hour"]
+    # 初始化consultants["hour"]
     for item in consultants:
         if "hour" not in item:
-            item["hour"]=[]
+            item["hour"] = []
 
-    #展開需要申請的時間陣列
+    # 展開需要申請的時間陣列
     needTime = []
     for time in range(duration):
-        needTime.append(hour+time)
-    
+        needTime.append(hour + time)
+
     newConsultants = consultants.copy()
     bookConsultant = ""
-    
+
     def sortPriceFn(e):
         return e["price"]
-    
+
     def sortRateFn(e):
         return e["rate"]
-    
+
     if criteria == "price":
         newConsultants.sort(key=sortPriceFn)
-        consultantsPriceSortArr=[]
+        consultantsPriceSortArr = []
         # 依價格排序後，再以值找原先陣列的index
-        for newindex,item in enumerate(newConsultants):
-            for index,origin in enumerate(consultants):
+        for newindex, item in enumerate(newConsultants):
+            for index, origin in enumerate(consultants):
                 if item == origin:
                     consultantsPriceSortArr.append(index)
-        
+
         # 確認是否所有想預約時段可被預約
-        for dataIndex,item in enumerate(consultants):
+        for dataIndex, item in enumerate(consultants):
             checkTimeAvailable = True
             for time in needTime:
-                if time not in consultants[consultantsPriceSortArr[dataIndex]].get("hour"):
+                if time not in consultants[consultantsPriceSortArr[dataIndex]].get(
+                    "hour"
+                ):
                     checkTimeAvailable = True
                     continue
                 else:
                     checkTimeAvailable = False
                     break
-                
+
             if checkTimeAvailable:
-                #將所有預約時間加入原始資料
-                for index,time in enumerate(needTime):
+                # 將所有預約時間加入原始資料
+                for index, time in enumerate(needTime):
                     consultants[consultantsPriceSortArr[dataIndex]]["hour"].append(time)
                 bookConsultant = consultants[consultantsPriceSortArr[dataIndex]]["name"]
                 break
-        if len(bookConsultant)==0:
+        if len(bookConsultant) == 0:
             bookConsultant = "No Service"
-        
+
         print(bookConsultant)
-        
-    
+
     elif criteria == "rate":
-        newConsultants.sort(reverse=True,key=sortRateFn)
-        consultantsRateSortArr=[]
-        for newindex,item in enumerate(newConsultants):
-            for index,origin in enumerate(consultants):
+        newConsultants.sort(reverse=True, key=sortRateFn)
+        consultantsRateSortArr = []
+        for newindex, item in enumerate(newConsultants):
+            for index, origin in enumerate(consultants):
                 if item == origin:
                     consultantsRateSortArr.append(index)
         # 確認是否所有想預約時段可被預約
-        for dataIndex,item in enumerate(consultants):
+        for dataIndex, item in enumerate(consultants):
             checkTimeAvailable = True
             for time in needTime:
-                if time not in consultants[consultantsRateSortArr[dataIndex]].get("hour"):
+                if time not in consultants[consultantsRateSortArr[dataIndex]].get(
+                    "hour"
+                ):
                     checkTimeAvailable = True
                     continue
                 else:
                     checkTimeAvailable = False
                     break
-                
+
             if checkTimeAvailable:
-                #將所有預約時間加入原始資料
-                for index,time in enumerate(needTime):
+                # 將所有預約時間加入原始資料
+                for index, time in enumerate(needTime):
                     consultants[consultantsRateSortArr[dataIndex]]["hour"].append(time)
                 bookConsultant = consultants[consultantsRateSortArr[dataIndex]]["name"]
                 break
-        if len(bookConsultant)==0:
+        if len(bookConsultant) == 0:
             bookConsultant = "No Service"
-        
+
         print(bookConsultant)
-    
 
 
 consultants = [
@@ -194,6 +240,7 @@ def func(*data):
     else:
         print("沒有")
 
+
 print("---task3---")
 func("彭大牆", "陳王明雅", "吳明")  # print 彭大牆
 func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花")  # print 林花花
@@ -221,6 +268,7 @@ def get_number(index):
             case 2:
                 value = (index // 3) * 7 + 8
     print(value)
+
 
 print("---task4---")
 get_number(1)  # print 4
