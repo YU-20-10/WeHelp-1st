@@ -16,6 +16,7 @@ with request.urlopen(remoteDataUrl2) as res2:
     getRemoteData2 = json.load(res2)
 remoteData2 = getRemoteData2["data"]
 
+# 生成spot.csv
 with open("spot.csv", "w", encoding="utf-8") as spotFile:
     for data in remoteData1:
         district = ""
@@ -46,5 +47,25 @@ with open("spot.csv", "w", encoding="utf-8") as spotFile:
             )
         )
         spotFile.write(writeData + "\n")
+# 生成mrt.csv
+with open("mrt.csv", "w", encoding="utf-8") as mrtFile:
+    mrtData = {}
+    writeData = ""
+    for data in remoteData2:
+        if data["MRT"] not in mrtData:
+            mrtData[data["MRT"]] = []
+        for item in remoteData1:
+            if item["SERIAL_NO"] == data["SERIAL_NO"]:
+                mrtData[data["MRT"]].append(item["stitle"])
+        # print()
+    for key, value in mrtData.items():
+        listSting = ""
+        for index in range(len(value)):
+            # print(index<len(value)-1)
+            if index < len(value) - 1:
+                listSting += value[index] + ","
+            else:
+                listSting += value[index]
+        writeData += key + "," + listSting + "\n"
 
-
+    mrtFile.write(writeData)
