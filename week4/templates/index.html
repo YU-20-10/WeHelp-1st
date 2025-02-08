@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員系統｜首頁</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="data:image/png;base64,iVBORw0KGgo="
+    />
+  </head>
+  <body>
+    <p class="titleText">歡迎光臨，請輸入帳號密碼{{ id }}</p>
+    <section>
+      <div class="container">
+        <form class="signinForm">
+          <h1>登入系統</h1>
+          <div class="signinFormEl">
+            <label for="username" class="signinFormLabel">帳號</label>
+            <input type="text" id="username" name="username" />
+          </div>
+          <div class="signinFormEl">
+            <label for="password" class="signinFormLabel">密碼</label>
+            <input type="password" id="password" name="password" />
+          </div>
+          <div class="signinFormEl">
+            <input
+              type="checkbox"
+              name="agreeAll"
+              id="agreeAll"
+              class="agreeAllCheckBox"
+            />
+            <label for="agreeAll" class="agreeAllLabel">同意條款</label>
+            <p class="signinFormMessage"></p>
+          </div>
+          <button type="button" class="signinBtn">登入</button>
+        </form>
+      </div>
+    </section>
+    <script src="{{ url_for('static', path='/all.js') }}"></script>
+  </body>
+</html>

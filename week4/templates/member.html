@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員系統｜會員頁面</title>
+    <link href="{{ url_for('static',path='/styles.css') }}" rel="stylesheet" />
+  </head>
+  <body>
+    <p class="titleText">會員介面</p>
+    <section>
+      <div class="container">
+        <p class="successMessage">登入成功</p>
+        <div><a href="#" class="signoutBtn">登出系統</a></div>
+      </div>
+    </section>
+    <script src="{{ url_for('static',path='all.js') }}"></script>
+  </body>
+</html>

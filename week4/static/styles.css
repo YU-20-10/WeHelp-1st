@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleText {
+  text-align: center;
+  font-size: 30px;
+  background-color: #99e6ff;
+  padding: 16px 12px;
+  text-shadow: 1px 1px 2px black;
+}
+
+.signinForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signinFormEl {
+  margin-bottom: 16px;
+  min-width: 200px;
+}
+
+.signinFormLabel {
+  display: block;
+}
+
+.signinFormMessage {
+  color: red;
+  min-height: 21px;
+}
+
+.signinBtn {
+  border-radius: 16px;
+  padding: 8px 12px;
+}
+
+.errorMessage,
+.successMessage {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
