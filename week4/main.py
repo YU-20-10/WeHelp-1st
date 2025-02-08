@@ -55,8 +55,8 @@ async def signin(request: Request, body=Body(None)):
 
 @app.get("/member", response_class=HTMLResponse)
 async def member(request: Request):
-    signinCookie = request.cookies.get("member_signin")
-    if signinCookie is not None:
+    signinSession = "userName" in request.session
+    if signinSession:
         return templates.TemplateResponse(request=request, name="member.html")
     else:
         return RedirectResponse(
