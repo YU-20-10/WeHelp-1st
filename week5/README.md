@@ -6,7 +6,6 @@
   ~~~mysql
   CREATE DATABASE website;
   ~~~
-  ※因當初忘記截圖，此為完成其他Task後重新截圖的
   ![建立資料庫](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK2_1_%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E5%BA%ABwebsite.png)
   
 
@@ -21,24 +20,20 @@
       time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
   ~~~
-  ![建立資料表_member_1](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK2_2_%E9%A1%AF%E7%A4%BA%E8%B3%87%E6%96%99%E8%A1%A8%E4%B8%AD%E6%89%80%E6%9C%89%E8%B3%87%E6%96%99.png)
-  ![建立資料表_member_2](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK2_2_%E9%A1%AF%E7%A4%BA%E8%B3%87%E6%96%99%E8%A1%A8%E4%B8%AD%E5%90%84%E6%AC%84%E4%BD%8D%E7%9A%84%E8%A8%AD%E5%AE%9A%E5%80%BC.png)
-
+  ![建立資料表_member](https://github.com/YU-20-10/WeHelp-1st/blob/main/week5/img/week5_TASK2_2_%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E8%A1%A8.png)
 ## Task3
 - 建立新的row並設定name,usernamepassword為'test'，並另外新增四筆資料
   ~~~mysql
   INSERT INTO member(id,name,username,password)
   VALUES(1,'test','test','test');
   ~~~
-  ※加入的資料在Task2的截圖中
+  ![新增資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_1_%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99.png)
 
 - 呈現資料表member中的所有row
   ~~~mysql
   SELECT * FROM member;
   ~~~
-  ![加入資料_1](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_1%262_%E6%96%B0%E5%A2%9E%26%E6%9F%A5%E7%9C%8B%E8%B3%87%E6%96%99.png)
-  ※因為後續計算需求，為了能檢視是否成功計算，更動初始加入資料為下圖
-  ![加入資料_2](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_1%262_%E6%96%B0%E5%A2%9E%26%E6%9F%A5%E7%9C%8B%E8%B3%87%E6%96%99(%E6%9B%B4%E5%8B%95%E5%BE%8C).png)
+  ![查看資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_2_%E6%9F%A5%E7%9C%8B%E8%B3%87%E6%96%99.png)
 
 - 以時間由近到遠排序，呈現資料表member中的所有row
   ~~~mysql
@@ -76,12 +71,12 @@
   ~~~
   ![取username跟password皆為test的資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_7_username%E5%8F%8Apassword%E7%AD%89%E6%96%BCtest.png)
   
-- 更新資料表member中name等於'test'的資料，使該筆資料變更成name為'test2'
+- 更新資料表member中username等於'test'的資料，使該筆資料變更成name為'test2'
   ~~~mysql
   UPDATE member SET name='test2'
-  WHERE name='test';
+  WHERE username='test';
   ~~~
-  ![變更name的資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_8_%E6%9B%B4%E6%96%B0name%E7%82%BAtest%E7%9A%84%E7%82%BAtest2.png)
+  ![變更name的資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK3_8_%E6%9B%B4%E6%96%B0username%E7%82%BAtest%E7%9A%84name%E7%82%BAtest2.png)
 
 ## Task4
 
@@ -123,10 +118,9 @@
 	  REFERENCES member(id)
   );
   ~~~
-  ![建立資料表_message_1](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_1_%E6%96%B0%E5%A2%9Emessage%E8%B3%87%E6%96%99%E8%A1%A8.png)
-  ![建立資料表_message_2](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_1_%E6%96%B0%E5%A2%9Emessage%E8%B3%87%E6%96%99%E8%A1%A8(2).png)
+  ![建立資料表_message](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_1_%E6%96%B0%E5%A2%9Emessage%E8%B3%87%E6%96%99%E8%A1%A8.png)
   ※下圖為資料表message中加入的所有資料
-  ![建立資料表_message_加入資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_1_%E6%96%B0%E5%A2%9Emessage%E8%B3%87%E6%96%99%E8%A1%A8_%E5%8A%A0%E5%85%A5%E8%B3%87%E6%96%99.png)
+  ![建立資料表_message_加入資料](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_1_%E6%96%B0%E5%A2%9Emessage%E8%B3%87%E6%96%99%E8%A1%A8_%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99.png)
 
 - 使用JOIN關連member及message，呈現所有資料表message的資料並包含傳送者的name
   ~~~mysql
@@ -146,7 +140,6 @@
   SELECT AVG(like_count) FROM message INNER JOIN member ON message.member_id=member.id
   WHERE username='test';
   ~~~
-  ※因當初漏截圖，下圖為重新補截圖的資料
   ![關聯member跟message並平均指定username的like_count](https://raw.githubusercontent.com/YU-20-10/WeHelp-1st/refs/heads/main/week5/img/week5_TASK5_4_message%26member%E7%AF%A9%E9%81%B8username%E7%82%BAtest%E4%B8%A6%E5%B9%B3%E5%9D%87like%E6%95%B8%E9%87%8F.png)
 
   
