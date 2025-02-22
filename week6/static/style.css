@@ -1,0 +1,46 @@
+ul {
+  list-style: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.inputOuter {
+  margin-bottom: 12px;
+}
+
+.signupMessage,
+.signinMessage {
+  color: red;
+}
+
+.messageBoard {
+  min-width: 50vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.myMessage,
+.otherMessage {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 12px;
+}
+
+.myMessage {
+  background-color: #d2e9ff;
+}
+
+.otherMessage {
+  background-color: #ececff;
+}
+
+.messageContent,
+.messageDelBtn {
+  display: block;
+}

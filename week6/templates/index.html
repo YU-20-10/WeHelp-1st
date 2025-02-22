@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>首頁</title>
+    <link href="{{ url_for('static',path='style.css') }}" rel="stylesheet" />
+  </head>
+  <body>
+    <section>
+      <div class="banner container">
+        <p>歡迎光臨，請註冊/登入系統</p>
+      </div>
+      <form class="signupForm container">
+        <div class="inputOuter">
+          <label for="signupName">姓名</label
+          ><input type="text" name="signupName" id="signupName" />
+        </div>
+        <div class="inputOuter">
+          <label for="signupUsername">帳號</label
+          ><input type="text" name="signupUsername" id="signupUsername" />
+        </div>
+        <div class="inputOuter">
+          <label for="signupPassword">密碼</label
+          ><input type="password" name="signupPassword" id="signupPassword" />
+        </div>
+        <div>
+          <button type="button" class="signupBtn">註冊</button>
+        </div>
+        <p class="signupMessage"></p>
+      </form>
+    </section>
+    <hr />
+    <section>
+      <form class="signinForm container">
+        <div class="inputOuter">
+          <label for="signinUserName">帳號</label
+          ><input type="text" name="signinUsername" id="signinUserName" />
+        </div>
+        <div class="inputOuter">
+          <label for="signinPassword">密碼</label
+          ><input type="password" name="signinPassword" id="signinPassword" />
+        </div>
+        <div><button type="button" class="signinBtn">登入</button></div>
+        <p class="signinMessage"></p>
+      </form>
+    </section>
+    <script src="{{ url_for('static',path='all.js') }}"></script>
+  </body>
+</html>

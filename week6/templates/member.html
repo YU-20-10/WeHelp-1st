@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員頁面</title>
+    <link rel="stylesheet" href="{{ url_for('static',path='style.css') }}" />
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <p>{{ name }},歡迎登入</p>
+        <p><a href="#" class="signoutBtn">登出系統</a></p>
+      </div>
+    </section>
+    <hr />
+    <section>
+      <div class="container">
+        <p>你有什麼想法?</p>
+        <form class="contentForm">
+          <label for="content">內容</label>
+          <input type="text" name="content" id="content" />
+        </form>
+        <div class="container">
+          <button type="button" class="contentBtn">留言</button>
+        </div>
+      </div>
+    </section>
+    <hr />
+    <section>
+      <div class="container">
+        <ul class="messageBoard">
+          {% for item in messageData %} {% if item.name==name %}
+          <li class="myMessage" data-messageId="{{ item.id }}">
+            <span class="messageContent">{{item.name}}:{{item.content}}</span
+            ><button type="button" class="messageDelBtn">X</button>
+          </li>
+          {% else %}
+          <li class="otherMessage">
+            <span class="messageContent">{{item.name}}:{{item.content}}</span>
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <script src="{{ url_for('static',path='all.js') }}"></script>
+  </body>
+</html>
