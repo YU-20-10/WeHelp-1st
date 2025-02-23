@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import mysql.connector
 import uuid
 
+
 class SignupFormData(BaseModel):
     signupName: str
     signupUsername: str
@@ -25,9 +26,12 @@ class ContentFormData(BaseModel):
 class DeleteMessage(BaseModel):
     id: int
 
+
 # 以下密碼用*取代
 def connentMyDatabase():
-    return mysql.connector.connect(host="127.0.0.1", user="root", password="*")
+    return mysql.connector.connect(
+        host="127.0.0.1", user="root", password="*", database="website"
+    )
 
 
 app = FastAPI()
@@ -51,7 +55,6 @@ async def member(request: Request):
     if name is not None:
         myDatabase = connentMyDatabase()
         myDataBaseCursor = myDatabase.cursor(dictionary=True)
-        myDataBaseCursor.execute("USE website")
         # 避免合併查詢時，message欄位id與member欄位id重疊，指定篩選只包含message.id
         myDataBaseCursor.execute(
             "SELECT message.id, message.member_id, message.content, member.name, member.username FROM message INNER JOIN member ON message.member_id=member.id"
@@ -83,7 +86,6 @@ async def error(request: Request, message: str):
 async def signup(signupFormData: SignupFormData):
     myDatabase = connentMyDatabase()
     myDatabaseCursor = myDatabase.cursor(dictionary=True)
-    myDatabaseCursor.execute("USE website")
     myDatabaseCursor.execute(
         "SELECT * FROM member WHERE username = %s", [signupFormData.signupUsername]
     )
@@ -94,13 +96,14 @@ async def signup(signupFormData: SignupFormData):
         myDatabaseCursor.fetchall()
     if checkUsernameExist is None:
         myDatabaseCursor.execute(
-            "INSERT INTO member(name,username,password) VALUE (%s,%s,%s)",
+            "INSERT INTO member(name,username,password) VALUES (%s,%s,%s)",
             [
                 signupFormData.signupName,
                 signupFormData.signupUsername,
                 signupFormData.signupPassword,
             ],
         )
+        myDatabase.commit()
         # 確保資料提交不會有執行到一半需要執行其他指令而跳錯
         # 使用完畢後關閉cursor及資料庫連接
         myDatabaseCursor.close()
@@ -125,7 +128,6 @@ async def signup(signupFormData: SignupFormData):
 async def signin(request: Request, signinFormData: SigninFormData):
     myDatabase = connentMyDatabase()
     myDatabaseCursor = myDatabase.cursor(dictionary=True)
-    myDatabaseCursor.execute("USE website")
     myDatabaseCursor.execute(
         "SELECT * FROM member WHERE username=%s and password= %s",
         [signinFormData.signinUsername, signinFormData.signinPassword],
@@ -144,25 +146,13 @@ async def signin(request: Request, signinFormData: SigninFormData):
         myDatabase.close()
         return JSONResponse(content={"redirect": "/member"}, status_code=200)
     else:
-        myDatabaseCursor.execute(
-            "SELECT * FROM member WHERE username=%s", [signinFormData.signinUsername]
+        myDatabaseCursor.fetchall()
+        myDatabaseCursor.close()
+        myDatabase.close()
+        return JSONResponse(
+            content={"redirect": "/error?message=帳號或是密碼不正確"},
+            status_code=302,
         )
-        checkUsernameExist = myDatabaseCursor.fetchone()
-        if checkUsernameExist is not None:
-            myDatabaseCursor.fetchall()
-            myDatabaseCursor.close()
-            myDatabase.close()
-            return JSONResponse(
-                content={"redirect": "/error?message=帳號或是密碼不正確"},
-                status_code=302,
-            )
-        else:
-            myDatabaseCursor.close()
-            myDatabase.close()
-            return JSONResponse(
-                content={"redirect": "/error?message=該帳號尚未被註冊，請註冊後再登入"},
-                status_code=302,
-            )
 
 
 @app.get("/signout", response_class=JSONResponse)
@@ -182,7 +172,6 @@ async def createMessage(request: Request, contentFormData: ContentFormData):
     if id is not None and username is not None:
         myDataBase = connentMyDatabase()
         myDataBaseCunsor = myDataBase.cursor(dictionary=True)
-        myDataBaseCunsor.execute("USE website")
         myDataBaseCunsor.execute(
             "INSERT INTO message(member_id,content) VALUES(%s,%s)", [id, content]
         )
@@ -200,7 +189,6 @@ async def createMessage(request: Request, contentFormData: ContentFormData):
 async def deleteMessage(deleteMessage: DeleteMessage):
     myDatabase = connentMyDatabase()
     myDatabaseCunsor = myDatabase.cursor()
-    myDatabaseCunsor.execute("USE website")
     myDatabaseCunsor.execute("DELETE FROM message WHERE id=%s", [deleteMessage.id])
     myDatabase.commit()
     myDatabaseCunsor.close()
