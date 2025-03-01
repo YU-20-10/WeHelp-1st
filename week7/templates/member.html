@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員</title>
+    <link rel="stylesheet" href="{{url_for("static",path="style.css")}}">
+  </head>
+  <body>
+    <section class="outer">
+      <div class="container">
+        <p><span class="userDataName">{{name}}</span> 您好，歡迎登入</p>
+        <ul class="memberBtnList">
+          <li class="memberBtnListItem">
+            <button type="button" data-tab="edit">編輯會員姓名</button>
+          </li>
+          <li class="memberBtnListItem">
+            <button type="button" data-tab="search">會員查詢</button>
+          </li>
+          <li class="memberBtnListItem">
+            <button type="button" data-tab="message">留言</button>
+          </li>
+          <li class="memberBtnListItem">
+            <button type="button" class="signoutBtn">登出</button>
+          </li>
+        </ul>
+        <div>
+          <div class="container fnBlock noshow" data-block="edit">
+            <p>編輯會員姓名</p>
+            <form class="editNameForm">
+              <input
+                type="text"
+                name="editName"
+                value="{{ name }}"
+                class="editNameInput"
+              />
+              <button type="button" class="editNameBtn">變更姓名</button>
+            </form>
+            <div class="editNameResult"></div>
+          </div>
+          <div class="container fnBlock noshow" data-block="search">
+            <p>會員查詢</p>
+            <form class="memberSearchForm">
+              <input
+                type="text"
+                name="memberSearch"
+                placeholder="請輸入想查詢的帳號"
+                class="memberSearch"
+              />
+              <button type="button" class="memberSearchBtn">查詢</button>
+            </form>
+            <div class="memberResult"></div>
+          </div>
+          <div class="container fnBlock active" data-block="message">
+            <p>與大家分享你的想法</p>
+            <form class="memberMessageForm">
+                <label for="memberMessage">留言</label>
+                <input type="text" id="memberMessage" name="memberMessage"/>
+              <button type="button" class="memberMessageBtn">送出</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <hr />
+    <section class="outer">
+      <div class="container">
+        <h2>留言區</h2>
+        <ul class="messageBoard">
+          {% for item in memberPageData %} {% if item.username == username %}
+          <li class="messageItem userMessage" data-id="{{item.id}}">
+            <p>
+              <span class="userDataName">{{item.name}}</span>:{{item.content}}
+            </p>
+            <button type="button" class="delMessageBtn">X</button>
+          </li>
+          {% else %}
+          <li class="messageItem otherMessage" data-id="{{item.id}}">
+            <p>{{item.name}}:{{item.content}}</p>
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+    </section>
+    <script src="{{url_for("static",path="all.js")}}"></script>
+  </body>
+</html>

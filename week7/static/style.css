@@ -1,0 +1,78 @@
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+
+.outer {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formInner {
+    margin-bottom: 12px;
+}
+
+.fnBlock {
+    min-height: 120px;
+}
+
+.noshow{
+    display: none;
+}
+
+.active{
+    display: flex;
+}
+
+.signupMessage,.signinMessage,.editNameResult{
+    color: red;
+}
+
+.memberBtnList {
+    display: flex;
+}
+.memberBtnListItem+.memberBtnListItem {
+    margin-left: 12px;
+}
+
+.memberResult,.editNameResult {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.messageBoard {
+    min-width: 50vw;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.messageItem+.messageItem{
+    margin-top: 20px;
+}
+
+.userMessage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFF3EE;
+    padding: 8px 20px;
+}
+
+.otherMessage {
+    display: flex;
+    align-items: center;
+    background-color: #D1E9E9;
+    padding: 8px 20px;
+}
+
