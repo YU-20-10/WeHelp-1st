@@ -184,7 +184,7 @@ async def memberSearch(request: Request, username: str):
     if memberNameExist is not None:
         data = memberNameExist
     else:
-        data = "null"
+        data = None
     databaseConnectCursor.close()
     databaseConnect.close()
     return {"data": data}
@@ -197,14 +197,15 @@ async def editMemberData(
     content_type: Annotated[str | None, Header()] = None,
 ):
     name = request.session.get("name", None)
+    username = request.session.get("username",None)
     formDataName = editNameFormData.name
     responseData = {}
-    if content_type == "application/json" and name is not None and formDataName != name:
+    if content_type == "application/json" and name is not None and username is not None and formDataName != name:
         databaseConnect = database()
         databaseConnectCursor = databaseConnect.cursor(dictionary=True)
         # 更新資料庫的name
         databaseConnectCursor.execute(
-            "UPDATE member SET name=%s WHERE name=%s", [formDataName, name]
+            "UPDATE member SET name=%s WHERE username=%s", [formDataName, username]
         )
         databaseConnect.commit()
         # 更新session

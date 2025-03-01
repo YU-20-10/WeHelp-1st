@@ -225,7 +225,7 @@ if (memberSearchBtn) {
         let result = await getFetchData(
           `/api/member?username=${checkFormData.memberSearch}`
         );
-        if (result.data.id) {
+        if (result.data!==null) {
           memberResult.textContent = `${result.data.name}(${result.data.username})`;
         } else {
           memberResult.textContent = "查無資料";
