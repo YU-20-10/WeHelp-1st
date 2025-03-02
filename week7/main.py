@@ -173,7 +173,7 @@ async def delMessage(delMessageId:DelMessageId):
 async def memberSearch(request: Request, username: str):
     name = request.session.get("name", None)
     if name is None:
-        return {"data": "null"}
+        return {"data": None}
     databaseConnect = database()
     databaseConnectCursor = databaseConnect.cursor(dictionary=True)
     databaseConnectCursor.execute(
